@@ -23,6 +23,7 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "AddTask",
@@ -37,17 +38,15 @@ export default defineComponent({
     onSubmit(e: any) {
       e.preventDefault();
       if (!this.text) {
-        alert("Please add text");
+        alert("Please add task");
         return;
       }
       const newTask = {
-        id: Math.floor(Math.random() * 100000),
         text: this.text,
         day: this.day,
         reminder: this.reminder,
       };
       this.$emit("add-task", newTask);
-      console.log("this :>> ", newTask);
       this.text = "";
       this.day = "";
       this.reminder = false;
@@ -57,8 +56,14 @@ export default defineComponent({
 </script>
 
 <style scope>
+/* .add-form {
+  margin-bottom: 40px;
+  height: 0px;
+  overflow: hidden;
+} */
 .add-form {
   margin-bottom: 40px;
+  height: 285px;
 }
 .form-control {
   margin: 20px 0;

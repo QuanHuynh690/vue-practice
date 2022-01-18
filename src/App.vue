@@ -1,66 +1,29 @@
 <template>
   <div class="container">
-    <Header title="Task Tracker" />
-    <AddTask @add-task="addTask" />
-    <Tasks
-      @delete-task="deleteTask"
-      @toggle-reminder="toggleReminder"
-      :tasks="tasks"
+    <Header
+      title="Task Tracker"
+      @toggle-add-task="showAddForm"
+      :showAdd="showAdd"
     />
+    <router-view :showAdd="showAdd"></router-view>
+    <Footer />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import Header from "./components/Header.vue";
-import Tasks from "./components/Tasks.vue";
-import AddTask from "./components/AddTask.vue";
-import { TaskItem, TasksList } from "./types/task";
+import Footer from "./components/Footer.vue";
 export default defineComponent({
   name: "App",
-  components: { Header, Tasks, AddTask },
   data() {
-    return { tasks: [] as TasksList, showAdd: false };
+    return { showAdd: false };
   },
+  components: { Header, Footer },
   methods: {
-    deleteTask(id: string) {
-      if (confirm("Are you sure?")) {
-        this.tasks = this.tasks.filter((task) => task.id !== id);
-      }
-    },
-    toggleReminder(id: string) {
-      this.tasks = this.tasks.map((task) =>
-        task.id === id ? { ...task, reminder: !task.reminder } : task
-      );
-    },
-    addTask(task: TaskItem) {
-      this.tasks.push(task);
-    },
     showAddForm() {
-      this.showAdd = true;
+      this.showAdd = !this.showAdd;
     },
-  },
-  created() {
-    this.tasks = [
-      {
-        id: "1",
-        text: "Doctors Appointment",
-        day: "March 5th at 2:30pm",
-        reminder: true,
-      },
-      {
-        id: "2",
-        text: "Meeting with boss",
-        day: "March 6th at 1:30pm",
-        reminder: true,
-      },
-      {
-        id: "3",
-        text: "Food shopping",
-        day: "March 7th at 2:00pm",
-        reminder: false,
-      },
-    ];
   },
 });
 </script>
@@ -74,6 +37,10 @@ export default defineComponent({
 }
 body {
   font-family: "Poppins", sans-serif;
+}
+a {
+  color: #333;
+  text-decoration: none;
 }
 .container {
   max-width: 500px;

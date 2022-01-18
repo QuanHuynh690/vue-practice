@@ -4,6 +4,7 @@
   </button>
 </template>
 <script lang="ts">
+// eslint-disable @typescript-eslint/explicit-module-boundary-types
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Button",
@@ -12,9 +13,8 @@ export default defineComponent({
     color: String,
   },
   methods: {
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     onClick() {
-      console.log("clicked");
+      this.$emit("btn-click");
     },
   },
 });
