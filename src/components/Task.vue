@@ -5,7 +5,7 @@
   >
     <h3>
       {{ task.text }}
-      <i @click="test(task.id)" class="fas fa-times"></i>
+      <i @click="deleteTask(task.id)" class="fas fa-times"></i>
     </h3>
     <p>{{ task.day }}</p>
   </div>
@@ -17,7 +17,7 @@ export default defineComponent({
   name: "Task",
   props: { task: Object },
   methods: {
-    test(id: string) {
+    deleteTask(id: string) {
       this.$emit("delete-task", id);
     },
   },
