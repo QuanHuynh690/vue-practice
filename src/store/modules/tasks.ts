@@ -43,6 +43,13 @@ const actions = {
         : alert("Error deleting task");
     }
   },
+  filterTask: async ({ commit }: any, e: any) => {
+    const pageSize = parseInt(
+      e.target.options[e.target.options.selectedIndex].innerText
+    );
+    const res = await axios.get(`api/tasks?_limit=${pageSize}`);
+    commit("setTasks", res.data);
+  },
 };
 
 const mutations = {

@@ -2,7 +2,18 @@
   <transition name="addContainer">
     <AddTask @add-task="addTask" v-show="showAdd" />
   </transition>
-  <p>You have {{ count }} task{{ count > 1 ? "s" : "" }} to do</p>
+  <div class="subHeader">
+    <span>You have {{ count }} task{{ count > 1 ? "s" : "" }} to do</span>
+    <div class="filterCont">
+      <label>Filter: </label>
+      <select @change="filterTask($event)" class="filterSelect">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </div>
+  </div>
   <Tasks
     @delete-task="deleteTask"
     @toggle-reminder="toggleReminder"
@@ -11,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { TaskItem, TasksList } from "@/types/task";
+import { TasksList } from "@/types/task";
 import { defineComponent } from "vue";
 import Tasks from "../components/Tasks.vue";
 import AddTask from "../components/AddTask.vue";
@@ -23,13 +34,11 @@ export default defineComponent({
   data() {
     return {
       tasks: [] as TasksList,
-      //   showAdd: false,
     };
   },
   methods: {
     async toggleReminder(id: string) {
       const taskToToggle = await this.getTask(id);
-      console.log("taskToToggle :>> ", taskToToggle);
       const updatedTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
       this.updateTask(updatedTask);
     },
@@ -39,12 +48,12 @@ export default defineComponent({
       "deleteTask",
       "getTask",
       "updateTask",
+      "filterTask",
     ]),
   },
   computed: mapGetters(["allTasks", "count"]),
   created() {
     this.getTasks();
-    // this.tasks = await this.getTasks();
   },
 });
 </script>
@@ -58,6 +67,10 @@ export default defineComponent({
 
 .addContainer-enter-active,
 .addContainer-leave-active {
-  transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in;
+}
+.subHeader {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
